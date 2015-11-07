@@ -1,5 +1,6 @@
 package com.example.suhaas.mycontacts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,13 +10,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ContactListActivity extends AppCompatActivity {
+
+    private ArrayList<Contact> mContacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +29,52 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
 
 
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-        Contact contact1 = new Contact();
-        contact1.setName("Suhaas.S");
-        contacts.add(contact1);
+        mContacts = new ArrayList<Contact>();
+        for (int i = 0; i <30 ; i++) {
+            Contact contact1 = new Contact();
+            contact1.setName("Suhaas.S");
+            contact1.emails =new ArrayList<String>();
+            contact1.emails.add("suhaas.sreedhar@gmail.com");
+            contact1.phoneNumbers =new ArrayList<String>();
+            contact1.phoneNumbers.add("8147993477");
+            mContacts.add(contact1);
+        }
         ListView listView = (ListView) findViewById(R.id.contact_list_view);
-        listView.setAdapter(new ContactAdapter(contacts));
+        listView.setAdapter(new ContactAdapter(mContacts));
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int previousFirstItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem > previousFirstItem) {
+                    getSupportActionBar().hide();
+                } else if (firstVisibleItem < previousFirstItem) {
+                    getSupportActionBar().show();
+                }
+
+                previousFirstItem = firstVisibleItem;
+
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Contact contact = mContacts.get(position);
+                Intent i = new Intent(ContactListActivity.this, ContactViewActivity.class);
+                i.putExtra(ContactViewActivity.EXTRA, contact);
+                startActivity(i);
+            }
+        });
 
     }
+
+
 
     private class ContactAdapter extends ArrayAdapter<Contact>{
         ContactAdapter(ArrayList<Contact> contacts){

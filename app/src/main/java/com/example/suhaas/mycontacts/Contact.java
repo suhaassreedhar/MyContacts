@@ -1,10 +1,17 @@
 package com.example.suhaas.mycontacts;
 
-/**
- * Created by ravindrakumar on 03/11/15.
- */
-public class Contact {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Contact implements Serializable {
+    private String mName;
+    public ArrayList<String> emails;
+    public ArrayList<String> phoneNumbers;
+
+
+
     public String getName() {
+
         return mName;
     }
 
@@ -12,5 +19,5 @@ public class Contact {
         mName = name;
     }
 
-    private String mName;
+
 }

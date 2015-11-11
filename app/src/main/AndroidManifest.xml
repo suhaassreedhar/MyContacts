@@ -23,6 +23,11 @@
             android:label="@string/title_activity_contact_view"
             android:theme="@style/NoActionBar" >
         </activity>
+        <activity
+            android:name=".ContactEditActivity"
+            android:label="@string/title_activity_contact_edit"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

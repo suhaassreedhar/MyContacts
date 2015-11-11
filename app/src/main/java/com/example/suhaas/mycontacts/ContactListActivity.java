@@ -21,7 +21,9 @@ import java.util.ArrayList;
 
 public class ContactListActivity extends AppCompatActivity {
 
-    private ArrayList<Contact> mContacts;
+    private ContactList mContacts;
+    private ContactAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +31,21 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
 
 
-        mContacts = new ArrayList<Contact>();
+        mContacts = ContactList.getInstance();
         for (int i = 0; i <30 ; i++) {
             Contact contact1 = new Contact();
             contact1.setName("Suhaas.S");
             contact1.emails =new ArrayList<String>();
             contact1.emails.add("suhaas.sreedhar@gmail.com");
+            contact1.emails.add("suhaas.s.minu@gmail.com");
             contact1.phoneNumbers =new ArrayList<String>();
-            contact1.phoneNumbers.add("8147993477");
+            contact1.phoneNumbers.add("1800000005");
+            contact1.phoneNumbers.add("1800000000");
             mContacts.add(contact1);
         }
         ListView listView = (ListView) findViewById(R.id.contact_list_view);
-        listView.setAdapter(new ContactAdapter(mContacts));
+        mAdapter = new ContactAdapter(mContacts);
+        listView.setAdapter(mAdapter);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             int previousFirstItem = 0;
 
@@ -65,16 +70,13 @@ public class ContactListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Contact contact = mContacts.get(position);
                 Intent i = new Intent(ContactListActivity.this, ContactViewActivity.class);
-                i.putExtra(ContactViewActivity.EXTRA, contact);
+                i.putExtra(ContactViewActivity.EXTRA, position);
                 startActivity(i);
             }
         });
 
     }
-
-
 
     private class ContactAdapter extends ArrayAdapter<Contact>{
         ContactAdapter(ArrayList<Contact> contacts){
@@ -91,6 +93,12 @@ public class ContactListActivity extends AppCompatActivity {
             nameTextView.setText(contact.getName());
             return convertView;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

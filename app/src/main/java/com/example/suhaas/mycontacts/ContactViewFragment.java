@@ -1,5 +1,6 @@
 package com.example.suhaas.mycontacts;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactViewFragment extends Fragment {
+public class ContactViewFragment extends ContractFragment<ContactViewFragment.Contract> {
 
     private int mColor;
     private Contact mContact;
@@ -66,9 +67,7 @@ public class ContactViewFragment extends Fragment {
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     int id = menuItem.getItemId();
                     if (id == R.id.contact_view_edit) {
-                        Intent i = new Intent(getActivity(), ContactEditActivity.class);
-                        i.putExtra(ContactEditActivity.EXTRA, mPosition);
-                        startActivity(i);
+                        getContract().selectEditPosition(mPosition);
                         return true;
                     }
                     return false;
@@ -190,6 +189,11 @@ public class ContactViewFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public interface Contract{
+        public void selectEditPosition(int position);
+
     }
 
 }

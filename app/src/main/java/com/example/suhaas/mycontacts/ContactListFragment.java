@@ -45,17 +45,24 @@ public class ContactListFragment extends Fragment {
         View v =inflater.inflate(R.layout.fragment_contact_list, container, false);
 
         mContacts = ContactList.getInstance();
-        for (int i = 0; i <30 ; i++) {
             Contact contact1 = new Contact();
             contact1.setName("Suhaas.S");
             contact1.emails =new ArrayList<String>();
-            contact1.emails.add("suhaas.sreedhar@gmail.com");
-            contact1.emails.add("suhaas.s.minu@gmail.com");
+            contact1.emails.add("suhaas@s.com");
+            contact1.emails.add("suhaas@gmail.com");
             contact1.phoneNumbers =new ArrayList<String>();
             contact1.phoneNumbers.add("1800000005");
             contact1.phoneNumbers.add("1800000000");
             mContacts.add(contact1);
-        }
+        Contact contact2 = new Contact();
+        contact2.setName("Mithun.S");
+        contact2.emails =new ArrayList<String>();
+        contact2.emails.add("mithun@s.com");
+        contact2.emails.add("mithun@gmail.com");
+        contact2.phoneNumbers =new ArrayList<String>();
+        contact2.phoneNumbers.add("1800000005");
+        contact2.phoneNumbers.add("1800000000");
+        mContacts.add(contact2);
 
 
         ListView listView = (ListView)v.findViewById(R.id.contact_list_view);
